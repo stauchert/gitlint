@@ -59,7 +59,7 @@ class ConfigTests(BaseTestCase):
         repos = [self.tmp_git_repo, self.create_tmp_git_repo()]
         for target_repo in repos:
             commit_msg = "WIP: Thïs is a title thåt is a bit longer.\nContent on the second line\n" + \
-                        "This line of the body is here because we need it"
+                "This line of the body is here because we need it"
             filename = self.create_simple_commit(commit_msg, git_repo=target_repo)
             config_path = self.get_sample_path("config/gitlintconfig")
             output = gitlint("--config", config_path, "--debug", _cwd=target_repo, _tty_in=True, _ok_code=[5])

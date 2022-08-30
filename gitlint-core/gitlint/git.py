@@ -94,6 +94,7 @@ class GitCommitMessage:
       - title: the first line of full
       - body: all lines following the title
     """
+
     def __init__(self, context, original=None, full=None, title=None, body=None):
         self.context = context
         self.original = original
@@ -187,7 +188,7 @@ class GitCommit:
                 and self.is_merge_commit == other.is_merge_commit and self.is_fixup_commit == other.is_fixup_commit
                 and self.is_fixup_amend_commit == other.is_fixup_amend_commit
                 and self.is_squash_commit == other.is_squash_commit and self.is_revert_commit == other.is_revert_commit
-                and self.changed_files == other.changed_files and self.branches == other.branches) # noqa
+                and self.changed_files == other.changed_files and self.branches == other.branches)  # noqa
 
 
 class LocalGitCommit(GitCommit, PropertyCache):
@@ -199,6 +200,7 @@ class LocalGitCommit(GitCommit, PropertyCache):
         In addition, reading the required info when it's needed rather than up front avoids adding delay during gitlint
         startup time and reduces gitlint's memory footprint.
      """
+
     def __init__(self, context, sha):  # pylint: disable=super-init-not-called
         PropertyCache.__init__(self)
         self.context = context

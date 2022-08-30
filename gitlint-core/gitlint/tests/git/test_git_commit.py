@@ -146,7 +146,7 @@ class GitCommitTests(BaseTestCase):
         context = GitContext.from_local_repository("fåke/path", commit_hashes=[sample_hash])
         # assert that commit info was read using git command
         expected_calls = [
-            call("log", "-1", sample_hash, "--pretty=%H",  **self.expected_sh_special_args),
+            call("log", "-1", sample_hash, "--pretty=%H", **self.expected_sh_special_args),
             call("log", sample_hash, "-1", "--pretty=%aN%x00%aE%x00%ai%x00%P%n%B", **self.expected_sh_special_args),
             call('config', '--get', 'core.commentchar', _ok_code=[0, 1], **self.expected_sh_special_args),
             call('diff-tree', '--no-commit-id', '--name-only', '-r', '--root', sample_hash,
@@ -206,9 +206,9 @@ class GitCommitTests(BaseTestCase):
         ]
 
         expected_calls = [
-            call("log", "-1", hashes[0], "--pretty=%H",  **self.expected_sh_special_args),
-            call("log", "-1", hashes[1], "--pretty=%H",  **self.expected_sh_special_args),
-            call("log", "-1", hashes[2], "--pretty=%H",  **self.expected_sh_special_args),
+            call("log", "-1", hashes[0], "--pretty=%H", **self.expected_sh_special_args),
+            call("log", "-1", hashes[1], "--pretty=%H", **self.expected_sh_special_args),
+            call("log", "-1", hashes[2], "--pretty=%H", **self.expected_sh_special_args),
             call("log", hashes[0], "-1", "--pretty=%aN%x00%aE%x00%ai%x00%P%n%B", **self.expected_sh_special_args),
             call('config', '--get', 'core.commentchar', _ok_code=[0, 1], **self.expected_sh_special_args),
             call("log", hashes[1], "-1", "--pretty=%aN%x00%aE%x00%ai%x00%P%n%B", **self.expected_sh_special_args),
