@@ -14,7 +14,6 @@ from unittest import TestCase
 
 import arrow
 
-
 from qa.shell import git, gitlint, RunningCommand
 from qa.utils import DEFAULT_ENCODING
 
@@ -116,8 +115,15 @@ class BaseTestCase(TestCase):
         if not ok_code:
             ok_code = [0]
 
-        git("commit", "-m", message, _cwd=git_repo, _err_to_out=True, _out=out, _tty_in=tty_in,
-            _ok_code=ok_code, _env=environment)
+        git("commit",
+            "-m",
+            message,
+            _cwd=git_repo,
+            _err_to_out=True,
+            _out=out,
+            _tty_in=tty_in,
+            _ok_code=ok_code,
+            _env=environment)
         return test_filename
 
     def create_tmpfile(self, content):
@@ -165,9 +171,14 @@ class BaseTestCase(TestCase):
         """ Returns a dict with items related to system values logged by `gitlint --debug` """
         expected_gitlint_version = gitlint("--version").replace("gitlint, version ", "").strip()
         expected_git_version = git("--version").strip()
-        return {'platform': platform.platform(), 'python_version': sys.version,
-                'git_version': expected_git_version, 'gitlint_version': expected_gitlint_version,
-                'GITLINT_USE_SH_LIB': BaseTestCase.GITLINT_USE_SH_LIB, 'DEFAULT_ENCODING': DEFAULT_ENCODING}
+        return {
+            'platform': platform.platform(),
+            'python_version': sys.version,
+            'git_version': expected_git_version,
+            'gitlint_version': expected_gitlint_version,
+            'GITLINT_USE_SH_LIB': BaseTestCase.GITLINT_USE_SH_LIB,
+            'DEFAULT_ENCODING': DEFAULT_ENCODING
+        }
 
     def get_debug_vars_last_commit(self, git_repo=None):
         """ Returns a dict with items related to `gitlint --debug` output for the last commit. """

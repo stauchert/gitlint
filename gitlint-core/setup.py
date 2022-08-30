@@ -7,7 +7,6 @@ import os
 import platform
 import sys
 
-
 description = "Git commit message linter written in python, checks your commit messages for style."
 long_description = """
 Great for use as a commit-msg git hook or as part of your gating script in a CI pipeline (e.g. jenkins, github actions).
@@ -42,21 +41,14 @@ setup(
     description=description,
     long_description=long_description,
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
+        "Development Status :: 5 - Production/Stable", "Operating System :: OS Independent",
+        "Programming Language :: Python", "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7", "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9", "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-        "Environment :: Console",
-        "Intended Audience :: Developers",
-        "Topic :: Software Development :: Quality Assurance",
-        "Topic :: Software Development :: Testing",
-        "License :: OSI Approved :: MIT License"
+        "Programming Language :: Python :: Implementation :: PyPy", "Environment :: Console",
+        "Intended Audience :: Developers", "Topic :: Software Development :: Quality Assurance",
+        "Topic :: Software Development :: Testing", "License :: OSI Approved :: MIT License"
     ],
     python_requires=">=3.6",
     install_requires=[
@@ -79,14 +71,10 @@ setup(
         'Source': 'https://github.com/jorisroovers/gitlint',
     },
     license='MIT',
-    package_data={
-        'gitlint': ['files/*']
-    },
+    package_data={'gitlint': ['files/*']},
     packages=find_packages(exclude=["examples"]),
     entry_points={
-        "console_scripts": [
-            "gitlint = gitlint.cli:cli",
-        ],
+        "console_scripts": ["gitlint = gitlint.cli:cli",],
     },
 )
 

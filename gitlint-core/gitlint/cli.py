@@ -63,8 +63,7 @@ def log_system_info():
 
 def build_config(  # pylint: disable=too-many-arguments
         target, config_path, c, extra_path, ignore, contrib, ignore_stdin, staged, fail_without_commits, verbose,
-        silent, debug
-):
+        silent, debug):
     """ Creates a LintConfig object based on a set of commandline parameters. """
     config_builder = LintConfigBuilder()
     # Config precedence:
@@ -219,46 +218,71 @@ class ContextObj:
         self.gitcontext = gitcontext
 
 
-@click.group(invoke_without_command=True, context_settings={'max_content_width': 120},
+@click.group(invoke_without_command=True,
+             context_settings={'max_content_width': 120},
              epilog="When no COMMAND is specified, gitlint defaults to 'gitlint lint'.")
-@click.option('--target', envvar='GITLINT_TARGET',
+@click.option('--target',
+              envvar='GITLINT_TARGET',
               type=click.Path(exists=True, resolve_path=True, file_okay=False, readable=True),
               help="Path of the target git repository. [default: current working directory]")
-@click.option('-C', '--config', envvar='GITLINT_CONFIG',
+@click.option('-C',
+              '--config',
+              envvar='GITLINT_CONFIG',
               type=click.Path(exists=True, dir_okay=False, readable=True, resolve_path=True),
               help=f"Config file location [default: {DEFAULT_CONFIG_FILE}]")
-@click.option('-c', multiple=True,
+@click.option('-c',
+              multiple=True,
               help="Config flags in format <rule>.<option>=<value> (e.g.: -c T1.line-length=80). " +
-                   "Flag can be used multiple times to set multiple config values.")  # pylint: disable=bad-continuation
+              "Flag can be used multiple times to set multiple config values.")  # pylint: disable=bad-continuation
 @click.option('--commit', envvar='GITLINT_COMMIT', default=None, help="Hash (SHA) of specific commit to lint.")
-@click.option('--commits', envvar='GITLINT_COMMITS', default=None,
+@click.option('--commits',
+              envvar='GITLINT_COMMITS',
+              default=None,
               help="The range of commits (refspec or comma-separated hashes) to lint. [default: HEAD]")
-@click.option('-e', '--extra-path', envvar='GITLINT_EXTRA_PATH',
+@click.option('-e',
+              '--extra-path',
+              envvar='GITLINT_EXTRA_PATH',
               help="Path to a directory or python module with extra user-defined rules",
               type=click.Path(exists=True, resolve_path=True, readable=True))
 @click.option('--ignore', envvar='GITLINT_IGNORE', default="", help="Ignore rules (comma-separated by id or name).")
-@click.option('--contrib', envvar='GITLINT_CONTRIB', default="",
+@click.option('--contrib',
+              envvar='GITLINT_CONTRIB',
+              default="",
               help="Contrib rules to enable (comma-separated by id or name).")
-@click.option('--msg-filename', type=click.File(encoding=gitlint.utils.DEFAULT_ENCODING),
+@click.option('--msg-filename',
+              type=click.File(encoding=gitlint.utils.DEFAULT_ENCODING),
               help="Path to a file containing a commit-msg.")
-@click.option('--ignore-stdin', envvar='GITLINT_IGNORE_STDIN', is_flag=True,
+@click.option('--ignore-stdin',
+              envvar='GITLINT_IGNORE_STDIN',
+              is_flag=True,
               help="Ignore any stdin data. Useful for running in CI server.")
-@click.option('--staged', envvar='GITLINT_STAGED', is_flag=True,
+@click.option('--staged',
+              envvar='GITLINT_STAGED',
+              is_flag=True,
               help="Read staged commit meta-info from the local repository.")
-@click.option('--fail-without-commits', envvar='GITLINT_FAIL_WITHOUT_COMMITS', is_flag=True,
+@click.option('--fail-without-commits',
+              envvar='GITLINT_FAIL_WITHOUT_COMMITS',
+              is_flag=True,
               help="Hard fail when the target commit range is empty.")
-@click.option('-v', '--verbose', envvar='GITLINT_VERBOSITY', count=True, default=0,
-              help="Verbosity, more v's for more verbose output (e.g.: -v, -vv, -vvv). [default: -vvv]", )
-@click.option('-s', '--silent', envvar='GITLINT_SILENT', is_flag=True,
+@click.option(
+    '-v',
+    '--verbose',
+    envvar='GITLINT_VERBOSITY',
+    count=True,
+    default=0,
+    help="Verbosity, more v's for more verbose output (e.g.: -v, -vv, -vvv). [default: -vvv]",
+)
+@click.option('-s',
+              '--silent',
+              envvar='GITLINT_SILENT',
+              is_flag=True,
               help="Silent mode (no output). Takes precedence over -v, -vv, -vvv.")
 @click.option('-d', '--debug', envvar='GITLINT_DEBUG', help="Enable debugging output.", is_flag=True)
 @click.version_option(version=gitlint.__version__)
 @click.pass_context
 def cli(  # pylint: disable=too-many-arguments
-        ctx, target, config, c, commit, commits, extra_path, ignore, contrib,
-        msg_filename, ignore_stdin, staged, fail_without_commits, verbose,
-        silent, debug,
-):
+        ctx, target, config, c, commit, commits, extra_path, ignore, contrib, msg_filename, ignore_stdin, staged,
+        fail_without_commits, verbose, silent, debug):
     """ Git lint tool, checks your git commit messages for styling issues
 
         Documentation: http://jorisroovers.github.io/gitlint
@@ -403,8 +427,10 @@ def run_hook(ctx):
 
             value = None
             while value not in ["y", "n", "e"]:
-                click.echo("Continue with commit anyways (this keeps the current commit message)? "
-                           "[y(es)/n(no)/e(dit)] ", nl=False)
+                click.echo(
+                    "Continue with commit anyways (this keeps the current commit message)? "
+                    "[y(es)/n(no)/e(dit)] ",
+                    nl=False)
 
                 # Ideally, we'd want to use click.getchar() or click.prompt() to get user's input here instead of
                 # input(). However, those functions currently don't support getting answers from stdin.

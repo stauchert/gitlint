@@ -19,6 +19,7 @@ class MyUserCommitRule(CommitRule):
 
 # The below code is present so that we can test that we actually ignore it
 
+
 def func_should_be_ignored():
     pass
 

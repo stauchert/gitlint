@@ -2,7 +2,6 @@
 
 from gitlint.rules import LineRule, RuleViolation, CommitMessageTitle
 from gitlint.options import ListOption
-
 """
 Full details on user-defined rules: https://jorisroovers.com/gitlint/user_defined_rules
 
@@ -35,8 +34,10 @@ class SpecialChars(LineRule):
     target = CommitMessageTitle
 
     # A rule MAY have an option_spec if its behavior should be configurable.
-    options_spec = [ListOption('special-chars', ['$', '^', '%', '@', '!', '*', '(', ')'],
-                               "Comma separated list of characters that should not occur in the title")]
+    options_spec = [
+        ListOption('special-chars', ['$', '^', '%', '@', '!', '*', '(', ')'],
+                   "Comma separated list of characters that should not occur in the title")
+    ]
 
     def validate(self, line, _commit):
         self.log.debug("SpecialChars: This will be visible when running `gitlint --debug`")

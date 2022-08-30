@@ -1,4 +1,3 @@
-
 """
 This module implements a shim for the 'sh' library, mainly for use on Windows (sh is not supported on Windows).
 We might consider removing the 'sh' dependency altogether in the future, but 'sh' does provide a few

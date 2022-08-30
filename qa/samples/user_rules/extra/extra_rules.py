@@ -54,9 +54,11 @@ class ConfigurableCommitRule(CommitRule):
     name = "configürable"
     id = "UC4"
 
-    options_spec = [IntOption("int-öption", 2, "int-öption description"),
-                    StrOption("str-öption", "föo", "int-öption description"),
-                    ListOption("list-öption", ["foo", "bar"], "list-öption description")]
+    options_spec = [
+        IntOption("int-öption", 2, "int-öption description"),
+        StrOption("str-öption", "föo", "int-öption description"),
+        ListOption("list-öption", ["foo", "bar"], "list-öption description")
+    ]
 
     def validate(self, _):
         violations = [

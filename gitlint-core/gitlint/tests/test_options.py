@@ -8,9 +8,16 @@ from gitlint.options import IntOption, BoolOption, StrOption, ListOption, PathOp
 
 
 class RuleOptionTests(BaseTestCase):
+
     def test_option_equality(self):
-        options = {IntOption: 123, StrOption: "foöbar", BoolOption: False, ListOption: ["a", "b"],
-                   PathOption: ".", RegexOption: "^foöbar(.*)"}
+        options = {
+            IntOption: 123,
+            StrOption: "foöbar",
+            BoolOption: False,
+            ListOption: ["a", "b"],
+            PathOption: ".",
+            RegexOption: "^foöbar(.*)"
+        }
         for clazz, val in options.items():
             # 2 options are equal if their name, value and description match
             option1 = clazz("test-öption", val, "Test Dëscription")

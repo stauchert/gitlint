@@ -38,26 +38,12 @@ class LintConfig:  # pylint: disable=too-many-instance-attributes
     """
 
     # Default tuple of rule classes (tuple because immutable).
-    default_rule_classes = (rules.IgnoreByTitle,
-                            rules.IgnoreByBody,
-                            rules.IgnoreBodyLines,
-                            rules.IgnoreByAuthorName,
-                            rules.TitleMaxLength,
-                            rules.TitleTrailingWhitespace,
-                            rules.TitleLeadingWhitespace,
-                            rules.TitleTrailingPunctuation,
-                            rules.TitleHardTab,
-                            rules.TitleMustNotContainWord,
-                            rules.TitleRegexMatches,
-                            rules.TitleMinLength,
-                            rules.BodyMaxLineLength,
-                            rules.BodyMinLength,
-                            rules.BodyMissing,
-                            rules.BodyTrailingWhitespace,
-                            rules.BodyHardTab,
-                            rules.BodyFirstLineEmpty,
-                            rules.BodyChangedFileMention,
-                            rules.BodyRegexMatches,
+    default_rule_classes = (rules.IgnoreByTitle, rules.IgnoreByBody, rules.IgnoreBodyLines, rules.IgnoreByAuthorName,
+                            rules.TitleMaxLength, rules.TitleTrailingWhitespace, rules.TitleLeadingWhitespace,
+                            rules.TitleTrailingPunctuation, rules.TitleHardTab, rules.TitleMustNotContainWord,
+                            rules.TitleRegexMatches, rules.TitleMinLength, rules.BodyMaxLineLength, rules.BodyMinLength,
+                            rules.BodyMissing, rules.BodyTrailingWhitespace, rules.BodyHardTab,
+                            rules.BodyFirstLineEmpty, rules.BodyChangedFileMention, rules.BodyRegexMatches,
                             rules.AuthorValidEmail)
 
     def __init__(self):
@@ -203,11 +189,10 @@ class LintConfig:  # pylint: disable=too-many-instance-attributes
             if self.extra_path:
                 self._extra_path.set(value)
             else:
-                self._extra_path = options.PathOption(
-                    'extra-path', value,
-                    "Path to a directory or module with extra user-defined rules",
-                    type='both'
-                )
+                self._extra_path = options.PathOption('extra-path',
+                                                      value,
+                                                      "Path to a directory or module with extra user-defined rules",
+                                                      type='both')
 
             # Make sure we unload any previously loaded extra-path rules
             self.rules.delete_rules_by_attr("is_user_defined", True)
@@ -237,8 +222,7 @@ class LintConfig:  # pylint: disable=too-many-instance-attributes
 
             # For each specified contrib rule, check whether it exists among the contrib classes
             for rule_id_or_name in self.contrib:
-                rule_class = next((rc for rc in rule_classes if
-                                   rule_id_or_name in (rc.id, rc.name)), False)
+                rule_class = next((rc for rc in rule_classes if rule_id_or_name in (rc.id, rc.name)), False)
 
                 # If contrib rule exists, instantiate it and add it to the rules list
                 if rule_class:
@@ -534,6 +518,7 @@ GITLINT_CONFIG_TEMPLATE_SRC_PATH = os.path.join(os.path.dirname(os.path.realpath
 
 
 class LintConfigGenerator:
+
     @staticmethod
     def generate_config(dest):
         """ Generates a gitlint config file at the given destination location.

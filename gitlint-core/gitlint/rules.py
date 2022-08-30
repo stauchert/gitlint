@@ -356,8 +356,10 @@ class AuthorValidEmail(CommitRule):
 class IgnoreByTitle(ConfigurationRule):
     name = "ignore-by-title"
     id = "I1"
-    options_spec = [RegexOption('regex', None, "Regex matching the titles of commits this rule should apply to"),
-                    StrOption('ignore', "all", "Comma-separated list of rules to ignore")]
+    options_spec = [
+        RegexOption('regex', None, "Regex matching the titles of commits this rule should apply to"),
+        StrOption('ignore', "all", "Comma-separated list of rules to ignore")
+    ]
 
     def apply(self, config, commit):
         # If no regex is specified, immediately return
@@ -376,8 +378,10 @@ class IgnoreByTitle(ConfigurationRule):
 class IgnoreByBody(ConfigurationRule):
     name = "ignore-by-body"
     id = "I2"
-    options_spec = [RegexOption('regex', None, "Regex matching lines of the body of commits this rule should apply to"),
-                    StrOption('ignore', "all", "Comma-separated list of rules to ignore")]
+    options_spec = [
+        RegexOption('regex', None, "Regex matching lines of the body of commits this rule should apply to"),
+        StrOption('ignore', "all", "Comma-separated list of rules to ignore")
+    ]
 
     def apply(self, config, commit):
         # If no regex is specified, immediately return
@@ -421,8 +425,10 @@ class IgnoreBodyLines(ConfigurationRule):
 class IgnoreByAuthorName(ConfigurationRule):
     name = "ignore-by-author-name"
     id = "I4"
-    options_spec = [RegexOption('regex', None, "Regex matching the author name of commits this rule should apply to"),
-                    StrOption('ignore', "all", "Comma-separated list of rules to ignore")]
+    options_spec = [
+        RegexOption('regex', None, "Regex matching the author name of commits this rule should apply to"),
+        StrOption('ignore', "all", "Comma-separated list of rules to ignore")
+    ]
 
     def apply(self, config, commit):
         # If no regex is specified, immediately return

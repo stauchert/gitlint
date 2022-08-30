@@ -10,6 +10,7 @@ from gitlint.tests.base import BaseTestCase
 
 
 class DisplayTests(BaseTestCase):
+
     def test_v(self):
         display = Display(LintConfig())
         display.config.verbosity = 2

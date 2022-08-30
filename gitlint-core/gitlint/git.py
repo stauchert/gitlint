@@ -23,13 +23,14 @@ class GitContextError(GitlintError):
 
 
 class GitNotInstalledError(GitContextError):
+
     def __init__(self):
-        super().__init__(
-            "'git' command not found. You need to install git to use gitlint on a local repository. " +
-            "See https://git-scm.com/book/en/v2/Getting-Started-Installing-Git on how to install git.")
+        super().__init__("'git' command not found. You need to install git to use gitlint on a local repository. " +
+                         "See https://git-scm.com/book/en/v2/Getting-Started-Installing-Git on how to install git.")
 
 
 class GitExitCodeError(GitContextError):
+
     def __init__(self, command, stderr):
         self.command = command
         self.stderr = stderr
@@ -94,6 +95,7 @@ class GitCommitMessage:
       - title: the first line of full
       - body: all lines following the title
     """
+
     def __init__(self, context, original=None, full=None, title=None, body=None):
         self.context = context
         self.original = original
@@ -120,8 +122,8 @@ class GitCommitMessage:
         return self.full
 
     def __eq__(self, other):
-        return (isinstance(other, GitCommitMessage) and self.original == other.original
-                and self.full == other.full and self.title == other.title and self.body == other.body)  # noqa
+        return (isinstance(other, GitCommitMessage) and self.original == other.original and self.full == other.full and
+                self.title == other.title and self.body == other.body)  # noqa
 
 
 class GitCommit:
@@ -131,8 +133,17 @@ class GitCommit:
         In the context of gitlint, only the git context and commit message are required.
     """
 
-    def __init__(self, context, message, sha=None, date=None, author_name=None,  # pylint: disable=too-many-arguments
-                 author_email=None, parents=None, changed_files=None, branches=None):
+    def __init__(
+            self,
+            context,
+            message,
+            sha=None,
+            date=None,
+            author_name=None,  # pylint: disable=too-many-arguments
+            author_email=None,
+            parents=None,
+            changed_files=None,
+            branches=None):
         self.context = context
         self.message = message
         self.sha = sha
@@ -180,14 +191,13 @@ class GitCommit:
 
     def __eq__(self, other):
         # skip checking the context as context refers back to this obj, this will trigger a cyclic dependency
-        return (isinstance(other, GitCommit) and self.message == other.message
-                and self.sha == other.sha and self.author_name == other.author_name
-                and self.author_email == other.author_email
-                and self.date == other.date and self.parents == other.parents
-                and self.is_merge_commit == other.is_merge_commit and self.is_fixup_commit == other.is_fixup_commit
-                and self.is_fixup_amend_commit == other.is_fixup_amend_commit
-                and self.is_squash_commit == other.is_squash_commit and self.is_revert_commit == other.is_revert_commit
-                and self.changed_files == other.changed_files and self.branches == other.branches) # noqa
+        return (isinstance(other, GitCommit) and self.message == other.message and self.sha == other.sha and
+                self.author_name == other.author_name and self.author_email == other.author_email and
+                self.date == other.date and self.parents == other.parents and
+                self.is_merge_commit == other.is_merge_commit and self.is_fixup_commit == other.is_fixup_commit and
+                self.is_fixup_amend_commit == other.is_fixup_amend_commit and
+                self.is_squash_commit == other.is_squash_commit and self.is_revert_commit == other.is_revert_commit and
+                self.changed_files == other.changed_files and self.branches == other.branches)  # noqa
 
 
 class LocalGitCommit(GitCommit, PropertyCache):
@@ -199,6 +209,7 @@ class LocalGitCommit(GitCommit, PropertyCache):
         In addition, reading the required info when it's needed rather than up front avoids adding delay during gitlint
         startup time and reduces gitlint's memory footprint.
      """
+
     def __init__(self, context, sha):  # pylint: disable=super-init-not-called
         PropertyCache.__init__(self)
         self.context = context
@@ -222,8 +233,14 @@ class LocalGitCommit(GitCommit, PropertyCache):
         # Create Git commit object with the retrieved info
         commit_msg_obj = GitCommitMessage.from_full_message(self.context, commit_msg)
 
-        self._cache.update({'message': commit_msg_obj, 'author_name': name, 'author_email': email, 'date': commit_date,
-                            'parents': commit_parents, 'is_merge_commit': commit_is_merge_commit})
+        self._cache.update({
+            'message': commit_msg_obj,
+            'author_name': name,
+            'author_email': email,
+            'date': commit_date,
+            'parents': commit_parents,
+            'is_merge_commit': commit_is_merge_commit
+        })
 
     @property
     def message(self):
@@ -247,6 +264,7 @@ class LocalGitCommit(GitCommit, PropertyCache):
 
     @property
     def branches(self):
+
         def cache_branches():
             # We have to parse 'git branch --contains <sha>' instead of 'git for-each-ref' to be compatible with
             # git versions < 2.7.0
@@ -267,9 +285,15 @@ class LocalGitCommit(GitCommit, PropertyCache):
 
     @property
     def changed_files(self):
+
         def cache_changed_files():
-            self._cache['changed_files'] = _git("diff-tree", "--no-commit-id", "--name-only", "-r", "--root",
-                                                self.sha, _cwd=self.context.repository_path).split()
+            self._cache['changed_files'] = _git("diff-tree",
+                                                "--no-commit-id",
+                                                "--name-only",
+                                                "-r",
+                                                "--root",
+                                                self.sha,
+                                                _cwd=self.context.repository_path).split()
 
         return self._try_cache("changed_files", cache_changed_files)
 
@@ -405,6 +429,6 @@ class GitContext(PropertyCache):
         return context
 
     def __eq__(self, other):
-        return (isinstance(other, GitContext) and self.commits == other.commits
-                and self.repository_path == other.repository_path
-                and self.commentchar == other.commentchar and self.current_branch == other.current_branch)  # noqa
+        return (isinstance(other, GitContext) and self.commits == other.commits and
+                self.repository_path == other.repository_path and self.commentchar == other.commentchar and
+                self.current_branch == other.current_branch)  # noqa

@@ -19,8 +19,10 @@ class CommitsTests(BaseTestCase):
         git("checkout", "-b", "test-branch-commits", _cwd=self.tmp_git_repo)
         self.create_simple_commit("Sïmple title2\n\nSimple bödy describing the commit2")
         self.create_simple_commit("Sïmple title3\n\nSimple bödy describing the commit3")
-        output = gitlint("--commits", "test-branch-commits-base...test-branch-commits",
-                         _cwd=self.tmp_git_repo, _tty_in=True)
+        output = gitlint("--commits",
+                         "test-branch-commits-base...test-branch-commits",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True)
         self.assertEqualStdout(output, "")
 
     def test_violations(self):
@@ -33,8 +35,11 @@ class CommitsTests(BaseTestCase):
         commit_sha1 = self.get_last_commit_hash()[:10]
         self.create_simple_commit("Sïmple title3.\n")
         commit_sha2 = self.get_last_commit_hash()[:10]
-        output = gitlint("--commits", "test-branch-commits-violations-base...test-branch-commits-violations",
-                         _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[4])
+        output = gitlint("--commits",
+                         "test-branch-commits-violations-base...test-branch-commits-violations",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
+                         _ok_code=[4])
 
         self.assertEqual(output.exit_code, 4)
         expected_kwargs = {'commit_sha1': commit_sha1, 'commit_sha2': commit_sha2}
@@ -54,8 +59,11 @@ class CommitsTests(BaseTestCase):
         commit_sha4 = self.get_last_commit_hash()[:10]
 
         # Lint subset of the commits in a specific order, passed in via csv list
-        output = gitlint("--commits", f"{commit_sha2},{commit_sha1},{commit_sha4}",
-                         _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[6])
+        output = gitlint("--commits",
+                         f"{commit_sha2},{commit_sha1},{commit_sha4}",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
+                         _ok_code=[6])
 
         self.assertEqual(output.exit_code, 6)
         expected_kwargs = {'commit_sha1': commit_sha1, 'commit_sha2': commit_sha2, 'commit_sha4': commit_sha4}
@@ -75,7 +83,11 @@ class CommitsTests(BaseTestCase):
         self.assertEqualStdout(output, "")
 
         # Gitlint should fail when --fail-without-commits is used
-        output = gitlint("--commits", refspec, "--fail-without-commits", _cwd=self.tmp_git_repo, _tty_in=True,
+        output = gitlint("--commits",
+                         refspec,
+                         "--fail-without-commits",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
                          _ok_code=[self.GITLINT_USAGE_ERROR])
         self.assertEqual(output.exit_code, self.GITLINT_USAGE_ERROR)
         self.assertEqualStdout(output, f"Error: No commits in range \"{refspec}\"\n")
@@ -104,8 +116,7 @@ class CommitsTests(BaseTestCase):
 
         # Lint the first commit in the repository. This is a use-case that is not supported by --commits
         # As <sha>^...<sha> is not correct refspec in case <sha> points to the initial commit (which has no parents)
-        expected = ("1: T3 Title has trailing punctuation (.): \"Sïmple title.\"\n" +
-                    "3: B6 Body message is missing\n")
+        expected = ("1: T3 Title has trailing punctuation (.): \"Sïmple title.\"\n" + "3: B6 Body message is missing\n")
         output = gitlint("--commit", first_commit_sha, _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[2])
         self.assertEqual(output.exit_code, 2)
         self.assertEqualStdout(output, expected)
@@ -130,8 +141,13 @@ class CommitsTests(BaseTestCase):
         filename2 = self.create_file(self.tmp_git_repo)
         git("add", filename2, _cwd=self.tmp_git_repo)
 
-        output = gitlint(echo("WIP: Pïpe test."), "--staged", "--debug",
-                         _cwd=self.tmp_git_repo, _tty_in=False, _err_to_out=True, _ok_code=[3])
+        output = gitlint(echo("WIP: Pïpe test."),
+                         "--staged",
+                         "--debug",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=False,
+                         _err_to_out=True,
+                         _ok_code=[3])
 
         # Determine variable parts of expected output
         expected_kwargs = self.get_debug_vars_last_commit()
@@ -166,8 +182,14 @@ class CommitsTests(BaseTestCase):
 
         tmp_commit_msg_file = self.create_tmpfile("WIP: from fïle test.")
 
-        output = gitlint("--msg-filename", tmp_commit_msg_file, "--staged", "--debug",
-                         _cwd=self.tmp_git_repo, _tty_in=False, _err_to_out=True, _ok_code=[3])
+        output = gitlint("--msg-filename",
+                         tmp_commit_msg_file,
+                         "--staged",
+                         "--debug",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=False,
+                         _err_to_out=True,
+                         _ok_code=[3])
 
         # Determine variable parts of expected output
         expected_kwargs = self.get_debug_vars_last_commit()
@@ -195,8 +217,11 @@ class CommitsTests(BaseTestCase):
         output = gitlint("--commits", "HEAD", _cwd=tmp_git_repo, _tty_in=True, _ok_code=[3])
         revlist = git("rev-list", "HEAD", _tty_in=True, _cwd=tmp_git_repo).split()
 
-        expected_kwargs = {"commit_sha0": revlist[0][:10], "commit_sha1": revlist[1][:10],
-                           "commit_sha2": revlist[2][:10]}
+        expected_kwargs = {
+            "commit_sha0": revlist[0][:10],
+            "commit_sha1": revlist[1][:10],
+            "commit_sha2": revlist[2][:10]
+        }
 
         self.assertEqualStdout(output, self.get_expected("test_commits/test_lint_head_1", expected_kwargs))
 
@@ -209,14 +234,17 @@ class CommitsTests(BaseTestCase):
         # But in this case only B5 because T3 and T5 are being ignored because of config
         self.create_simple_commit("Release: WIP tïtle.\n\nShort", git_repo=tmp_git_repo)
         # In the following 2 commits, the T3 violations are as normal
-        self.create_simple_commit(
-            "Sïmple WIP title3.\n\nThis is \ta relëase commit\nMore info", git_repo=tmp_git_repo)
+        self.create_simple_commit("Sïmple WIP title3.\n\nThis is \ta relëase commit\nMore info", git_repo=tmp_git_repo)
         self.create_simple_commit("Sïmple title4.\n\nSimple bödy describing the commit4", git_repo=tmp_git_repo)
         revlist = git("rev-list", "HEAD", _tty_in=True, _cwd=tmp_git_repo).split()
 
         config_path = self.get_sample_path("config/ignore-release-commits")
         output = gitlint("--commits", "HEAD", "--config", config_path, _cwd=tmp_git_repo, _tty_in=True, _ok_code=[4])
 
-        expected_kwargs = {"commit_sha0": revlist[0][:10], "commit_sha1": revlist[1][:10],
-                           "commit_sha2": revlist[2][:10], "commit_sha3": revlist[3][:10]}
+        expected_kwargs = {
+            "commit_sha0": revlist[0][:10],
+            "commit_sha1": revlist[1][:10],
+            "commit_sha2": revlist[2][:10],
+            "commit_sha3": revlist[3][:10]
+        }
         self.assertEqualStdout(output, self.get_expected("test_commits/test_ignore_commits_1", expected_kwargs))

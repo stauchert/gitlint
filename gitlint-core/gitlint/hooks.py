@@ -35,9 +35,8 @@ class GitHookInstaller:
         GitHookInstaller._assert_git_repo(lint_config.target)
         dest_path = GitHookInstaller.commit_msg_hook_path(lint_config)
         if os.path.exists(dest_path):
-            raise GitHookInstallerError(
-                f"There is already a commit-msg hook file present in {dest_path}.\n" +
-                "gitlint currently does not support appending to an existing commit-msg file.")
+            raise GitHookInstallerError(f"There is already a commit-msg hook file present in {dest_path}.\n" +
+                                        "gitlint currently does not support appending to an existing commit-msg file.")
 
         # copy hook file
         shutil.copy(COMMIT_MSG_HOOK_SRC_PATH, dest_path)

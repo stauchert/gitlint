@@ -21,25 +21,31 @@ class GitLinter:
 
     @property
     def configuration_rules(self):
-        return [rule for rule in self.config.rules if
-                isinstance(rule, gitlint_rules.ConfigurationRule) and not self.should_ignore_rule(rule)]
+        return [
+            rule for rule in self.config.rules
+            if isinstance(rule, gitlint_rules.ConfigurationRule) and not self.should_ignore_rule(rule)
+        ]
 
     @property
     def title_line_rules(self):
-        return [rule for rule in self.config.rules if
-                isinstance(rule, gitlint_rules.LineRule) and
-                rule.target == gitlint_rules.CommitMessageTitle and not self.should_ignore_rule(rule)]
+        return [
+            rule for rule in self.config.rules if isinstance(rule, gitlint_rules.LineRule) and
+            rule.target == gitlint_rules.CommitMessageTitle and not self.should_ignore_rule(rule)
+        ]
 
     @property
     def body_line_rules(self):
-        return [rule for rule in self.config.rules if
-                isinstance(rule, gitlint_rules.LineRule) and
-                rule.target == gitlint_rules.CommitMessageBody and not self.should_ignore_rule(rule)]
+        return [
+            rule for rule in self.config.rules if isinstance(rule, gitlint_rules.LineRule) and
+            rule.target == gitlint_rules.CommitMessageBody and not self.should_ignore_rule(rule)
+        ]
 
     @property
     def commit_rules(self):
-        return [rule for rule in self.config.rules if isinstance(rule, gitlint_rules.CommitRule) and
-                not self.should_ignore_rule(rule)]
+        return [
+            rule for rule in self.config.rules
+            if isinstance(rule, gitlint_rules.CommitRule) and not self.should_ignore_rule(rule)
+        ]
 
     @staticmethod
     def _apply_line_rules(lines, commit, rules, line_nr_start):

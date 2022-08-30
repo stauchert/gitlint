@@ -22,7 +22,6 @@ Source code on `github.com/jorisroovers/gitlint`_.
 .. _github.com/jorisroovers/gitlint: https://github.com/jorisroovers/gitlint
 """
 
-
 version = "0.18.0dev"
 
 setup(
@@ -31,21 +30,14 @@ setup(
     description=description,
     long_description=long_description,
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
+        "Development Status :: 5 - Production/Stable", "Operating System :: OS Independent",
+        "Programming Language :: Python", "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7", "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9", "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-        "Environment :: Console",
-        "Intended Audience :: Developers",
-        "Topic :: Software Development :: Quality Assurance",
-        "Topic :: Software Development :: Testing",
-        "License :: OSI Approved :: MIT License"
+        "Programming Language :: Python :: Implementation :: PyPy", "Environment :: Console",
+        "Intended Audience :: Developers", "Topic :: Software Development :: Quality Assurance",
+        "Topic :: Software Development :: Testing", "License :: OSI Approved :: MIT License"
     ],
     python_requires=">=3.6",
     install_requires=[

@@ -2,8 +2,6 @@
 
 from gitlint.rules import ConfigurationRule
 from gitlint.options import IntOption
-
-
 """
 Full details on user-defined rules: https://jorisroovers.com/gitlint/user_defined_rules
 

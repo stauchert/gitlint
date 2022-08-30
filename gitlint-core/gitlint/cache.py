@@ -38,9 +38,11 @@ def cache(original_func=None, cachekey=None):  # pylint: disable=unused-argument
             cachekey = func.__name__
 
         def wrapped(*args):
+
             def cache_func_result():
                 # Call decorated function and store its result in the cache
                 args[0]._cache[cachekey] = func(*args)
+
             return args[0]._try_cache(cachekey, cache_func_result)
 
         return wrapped

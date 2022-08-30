@@ -2,7 +2,6 @@
 
 from gitlint.rules import CommitRule, RuleViolation
 from gitlint.options import IntOption, ListOption
-
 """
 Full details on user-defined rules: https://jorisroovers.com/gitlint/user_defined_rules
 

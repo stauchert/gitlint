@@ -87,7 +87,7 @@ class BaseTestCase(unittest.TestCase):
         return os.path.join(BaseTestCase.SAMPLES_DIR, "user_rules")
 
     @staticmethod
-    def gitcontext(commit_msg_str, changed_files=None, ):
+    def gitcontext(commit_msg_str, changed_files=None):
         """ Utility method to easily create gitcontext objects based on a given commit msg string and an optional set of
         changed files"""
         with patch("gitlint.git.git_commentchar") as comment_char:

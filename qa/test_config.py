@@ -19,8 +19,11 @@ class ConfigTests(BaseTestCase):
 
     def test_ignore_by_name(self):
         self.create_simple_commit("WIP: Thïs is a title.\nContënt on the second line")
-        output = gitlint("--ignore", "title-must-not-contain-word,body-first-line-empty",
-                         _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[1])
+        output = gitlint("--ignore",
+                         "title-must-not-contain-word,body-first-line-empty",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
+                         _ok_code=[1])
         expected = "1: T3 Title has trailing punctuation (.): \"WIP: Thïs is a title.\"\n"
         self.assertEqualStdout(output, expected)
 
@@ -66,8 +69,8 @@ class ConfigTests(BaseTestCase):
 
             expected_kwargs = self.get_debug_vars_last_commit(git_repo=target_repo)
             expected_kwargs.update({'config_path': config_path, 'changed_files': [filename]})
-            self.assertEqualStdout(output, self.get_expected("test_config/test_config_from_file_debug_1",
-                                                             expected_kwargs))
+            self.assertEqualStdout(output,
+                                   self.get_expected("test_config/test_config_from_file_debug_1", expected_kwargs))
 
     def test_config_from_env(self):
         """ Test for configuring gitlint from environment variables """
@@ -78,11 +81,16 @@ class ConfigTests(BaseTestCase):
         commit_msg = "WIP: Thïs is a title thåt is a bit longer.\nContent on the second line\n" + \
                      "This line of the body is here because we need it"
         filename = self.create_simple_commit(commit_msg, git_repo=target_repo)
-        env = self.create_environment({"GITLINT_DEBUG": "1", "GITLINT_VERBOSITY": "2",
-                                       "GITLINT_IGNORE": "T1,T2", "GITLINT_CONTRIB": "CC1,CT1",
-                                       "GITLINT_FAIL_WITHOUT_COMMITS": "1", "GITLINT_IGNORE_STDIN": "1",
-                                       "GITLINT_TARGET": target_repo,
-                                       "GITLINT_COMMITS": self.get_last_commit_hash(git_repo=target_repo)})
+        env = self.create_environment({
+            "GITLINT_DEBUG": "1",
+            "GITLINT_VERBOSITY": "2",
+            "GITLINT_IGNORE": "T1,T2",
+            "GITLINT_CONTRIB": "CC1,CT1",
+            "GITLINT_FAIL_WITHOUT_COMMITS": "1",
+            "GITLINT_IGNORE_STDIN": "1",
+            "GITLINT_TARGET": target_repo,
+            "GITLINT_COMMITS": self.get_last_commit_hash(git_repo=target_repo)
+        })
         output = gitlint(_env=env, _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[5])
         expected_kwargs = self.get_debug_vars_last_commit(git_repo=target_repo)
         expected_kwargs.update({'changed_files': [filename]})
@@ -91,11 +99,19 @@ class ConfigTests(BaseTestCase):
 
         # For some env variables, we need a separate test ast they are mutually exclusive with the ones tested above
         tmp_commit_msg_file = self.create_tmpfile("WIP: msg-fïlename test.")
-        env = self.create_environment({"GITLINT_DEBUG": "1", "GITLINT_TARGET": target_repo,
-                                       "GITLINT_SILENT": "1", "GITLINT_STAGED": "1"})
+        env = self.create_environment({
+            "GITLINT_DEBUG": "1",
+            "GITLINT_TARGET": target_repo,
+            "GITLINT_SILENT": "1",
+            "GITLINT_STAGED": "1"
+        })
 
-        output = gitlint("--msg-filename", tmp_commit_msg_file,
-                         _env=env, _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[3])
+        output = gitlint("--msg-filename",
+                         tmp_commit_msg_file,
+                         _env=env,
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
+                         _ok_code=[3])
 
         # Extract date from actual output to insert it into the expected output
         # We have to do this since there's no way for us to deterministically know that date otherwise

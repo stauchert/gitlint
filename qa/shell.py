@@ -1,4 +1,3 @@
-
 # This code is mostly duplicated from the `gitlint.shell` module. We consciously duplicate this code as to not depend
 # on gitlint internals for our integration testing framework.
 

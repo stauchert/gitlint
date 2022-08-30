@@ -47,12 +47,14 @@ class RuleOption:
 
 
 class StrOption(RuleOption):
+
     @allow_none
     def set(self, value):
         self.value = str(value)
 
 
 class IntOption(RuleOption):
+
     def __init__(self, name, value, description, allow_negative=False):
         self.allow_negative = allow_negative
         super().__init__(name, value, description)

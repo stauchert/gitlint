@@ -101,8 +101,11 @@ class IntegrationTests(BaseTestCase):
         self.assertEqualStdout(output, "")
 
         # Make sure that if we set the ignore-fixup-commits option to false that we do still see the violations
-        output = gitlint("-c", "general.ignore-fixup-amend-commits=false",
-                         _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[1])
+        output = gitlint("-c",
+                         "general.ignore-fixup-amend-commits=false",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
+                         _ok_code=[1])
         expected = "1: T5 Title contains the word 'WIP' (case-insensitive): \"amend! Cömmit on WIP master\"\n"
 
         self.assertEqualStdout(output, expected)
@@ -117,8 +120,11 @@ class IntegrationTests(BaseTestCase):
         self.assertEqualStdout(output, "")
 
         # Assert that we do see the error if we disable the ignore-revert-commits option
-        output = gitlint("-c", "general.ignore-revert-commits=false",
-                         _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[1])
+        output = gitlint("-c",
+                         "general.ignore-revert-commits=false",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
+                         _ok_code=[1])
         self.assertEqual(output.exit_code, 1)
         expected = "1: T5 Title contains the word 'WIP' (case-insensitive): \"Revert \"WIP: Cömmit on master.\"\"\n"
         self.assertEqualStdout(output, expected)
@@ -148,8 +154,11 @@ class IntegrationTests(BaseTestCase):
         self.assertEqualStdout(output, "")
 
         # Make sure that if we set the ignore-squash-commits option to false that we do still see the violations
-        output = gitlint("-c", "general.ignore-squash-commits=false",
-                         _cwd=self.tmp_git_repo, _tty_in=True, _ok_code=[2])
+        output = gitlint("-c",
+                         "general.ignore-squash-commits=false",
+                         _cwd=self.tmp_git_repo,
+                         _tty_in=True,
+                         _ok_code=[2])
         expected = "1: T5 Title contains the word 'WIP' (case-insensitive): \"squash! Cömmit on WIP master\"\n" + \
             "3: B5 Body message is too short (14<20): \"Töo short body\"\n"
 
@@ -175,8 +184,7 @@ class IntegrationTests(BaseTestCase):
         # http://amoffat.github.io/sh/sections/special_arguments.html?highlight=_tty_in#err-to-out
         # We need to pass some whitespace to _in as sh will otherwise hang, see
         # https://github.com/amoffat/sh/issues/427
-        output = gitlint("--msg-filename", tmp_commit_msg_file, _in=" ",
-                         _tty_in=False, _err_to_out=True, _ok_code=[3])
+        output = gitlint("--msg-filename", tmp_commit_msg_file, _in=" ", _tty_in=False, _err_to_out=True, _ok_code=[3])
 
         self.assertEqualStdout(output, self.get_expected("test_gitlint/test_msg_filename_no_tty_1"))
 
@@ -186,7 +194,9 @@ class IntegrationTests(BaseTestCase):
         # Name is checked before email so this isn't strictly
         # necessary but seems good for consistency.
         env = self.create_tmp_git_config("[user]\n  email = test-emåil@foo.com\n")
-        output = gitlint("--staged", "--msg-filename", tmp_commit_msg_file,
+        output = gitlint("--staged",
+                         "--msg-filename",
+                         tmp_commit_msg_file,
                          _ok_code=[self.GIT_CONTEXT_ERROR_CODE],
                          _env=env)
         expected = "Missing git configuration: please set user.name\n"
@@ -196,7 +206,9 @@ class IntegrationTests(BaseTestCase):
         """ Ensure we print out a helpful message if user.email is not set """
         tmp_commit_msg_file = self.create_tmpfile("WIP: msg-fïlename NO email test.")
         env = self.create_tmp_git_config("[user]\n  name = test åuthor\n")
-        output = gitlint("--staged", "--msg-filename", tmp_commit_msg_file,
+        output = gitlint("--staged",
+                         "--msg-filename",
+                         tmp_commit_msg_file,
                          _ok_code=[self.GIT_CONTEXT_ERROR_CODE],
                          _env=env)
         expected = "Missing git configuration: please set user.email\n"
@@ -217,6 +229,10 @@ class IntegrationTests(BaseTestCase):
                     "1: T5 Title contains the word \'WIP\' (case-insensitive): \"WIP: Pïpe test.\"\n"
                     "3: B6 Body message is missing\n")
 
-        output = gitlint(echo("WIP: Pïpe test."), "--staged", _cwd=empty_git_repo, _tty_in=False,
-                         _err_to_out=True, _ok_code=[3])
+        output = gitlint(echo("WIP: Pïpe test."),
+                         "--staged",
+                         _cwd=empty_git_repo,
+                         _tty_in=False,
+                         _err_to_out=True,
+                         _ok_code=[3])
         self.assertEqualStdout(output, expected)

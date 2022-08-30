@@ -61,13 +61,13 @@ def find_rule_classes(extra_path):
         # 1) is it a class, if not, skip
         # 2) is the parent path the current module. If not, we are dealing with an imported class, skip
         # 3) is it a subclass of rule
-        rule_classes.extend([clazz for _, clazz in inspect.getmembers(sys.modules[module])
-                             if
-                             inspect.isclass(clazz) and  # check isclass to ensure clazz.__module__ exists
-                             clazz.__module__ == module and  # ignore imported classes
-                             (issubclass(clazz, rules.LineRule) or
-                              issubclass(clazz, rules.CommitRule) or
-                              issubclass(clazz, rules.ConfigurationRule))])
+        rule_classes.extend([
+            clazz for _, clazz in inspect.getmembers(sys.modules[module])
+            if inspect.isclass(clazz) and  # check isclass to ensure clazz.__module__ exists
+            clazz.__module__ == module and  # ignore imported classes
+            (issubclass(clazz, rules.LineRule) or issubclass(clazz, rules.CommitRule) or
+             issubclass(clazz, rules.ConfigurationRule))
+        ])
 
         # validate that the rule classes are valid user-defined rules
         for rule_class in rule_classes:
@@ -91,8 +91,8 @@ def assert_valid_rule_class(clazz, rule_type="User-defined"):  # pylint: disable
     """
 
     # Rules must extend from LineRule, CommitRule or ConfigurationRule
-    if not (issubclass(clazz, rules.LineRule) or issubclass(clazz, rules.CommitRule)
-            or issubclass(clazz, rules.ConfigurationRule)):
+    if not (issubclass(clazz, rules.LineRule) or issubclass(clazz, rules.CommitRule) or
+            issubclass(clazz, rules.ConfigurationRule)):
         msg = f"{rule_type} rule class '{clazz.__name__}' " + \
               f"must extend from {rules.CommitRule.__module__}.{rules.LineRule.__name__}, " + \
               f"{rules.CommitRule.__module__}.{rules.CommitRule.__name__} or " + \
