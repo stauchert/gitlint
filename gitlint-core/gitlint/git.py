@@ -145,6 +145,9 @@ class GitCommitMessage:
     def __str__(self):
         return self.full
 
+    def __repr__(self):
+        return f"GitCommitMessage(title={self.title}, body={self.body})"
+
     def __eq__(self, other):
         return (
             isinstance(other, GitCommitMessage)
@@ -171,12 +174,12 @@ class GitChangedFileStats:
             and self.deletions == other.deletions
         )
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"{self.filepath}: {self.additions} additions, {self.deletions} deletions"
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return (
-            f'GitChangedFileStats(filepath="{self.filepath}", additions={self.additions}, deletions={self.deletions})'
+            f'{type(self).__name__}(filepath="{self.filepath}", additions={self.additions}, deletions={self.deletions})'
         )
 
 
@@ -255,6 +258,13 @@ class GitCommit:
             f"Changed Files: {self.changed_files}\n"
             f"Changed Files Stats:{changed_files_stats_str}\n"
             "-----------------------"
+        )
+
+    def __repr__(self):
+        return (
+            f"{type(self).__name__}(sha={self.sha}, date={self.date}, author_name={self.author_name}, "
+            f"author_email={self.author_email}, parents={self.parents}, "
+            f"changed_files_stats={self.changed_files_stats}, branches={self.branches})"
         )
 
     def __eq__(self, other):
