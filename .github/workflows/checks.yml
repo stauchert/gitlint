@@ -22,7 +22,7 @@ jobs:
         run: mv .git ._git
 
       - name: Setup python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.3.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -103,7 +103,7 @@ jobs:
         run: Rename-Item .git ._git
 
       - name: Setup python
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v4.3.0
         with:
           python-version: ${{ matrix.python-version }}
 
